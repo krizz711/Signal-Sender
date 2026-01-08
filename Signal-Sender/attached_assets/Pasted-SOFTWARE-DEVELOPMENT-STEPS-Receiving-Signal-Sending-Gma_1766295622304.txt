@@ -1,0 +1,138 @@
+SOFTWARE DEVELOPMENT STEPS
+(Receiving Signal → Sending Gmail Notification)
+Phase 1: Planning & Setup
+Step 1: Define Input Signal Format
+
+Decide what data the hardware (ESP8266) will send.
+
+Example:
+
+{
+  "door_status": "open",
+  "alert": true,
+  "duration": 5
+}
+
+
+✔ This will also be used for testing with fake signals.
+
+Step 2: Choose Technology Stack
+
+Finalize tools:
+
+Backend: Flask (Python) or Node.js
+
+Communication: HTTP POST
+
+Notification: Gmail SMTP
+
+Phase 2: Backend Development
+Step 3: Create Backend Project
+
+Create project folder
+
+Initialize backend server
+
+Run server on local host
+
+✔ Confirm server runs without errors.
+
+Step 4: Create Email Registration API
+
+Endpoint: /register-email
+
+Input: user Gmail
+
+Store email (temporary variable or database)
+
+✔ Test using browser or Postman.
+
+Step 5: Create Alert Receiving API
+
+Endpoint: /door-alert
+
+Input: alert data from ESP8266 (or simulated signal)
+
+Validate received data
+
+✔ Print received data in console to confirm.
+
+Phase 3: Email Notification Logic
+Step 6: Configure Gmail SMTP
+
+Create project Gmail account
+
+Enable App Password
+
+Configure SMTP settings in backend
+
+✔ Send a test email manually from backend.
+
+Step 7: Integrate Alert → Email Logic
+
+When alert = true:
+
+Trigger email function
+
+Compose alert email message
+
+✔ Email should reach phone via Gmail app.
+
+Phase 4: Testing Without Hardware
+Step 8: Simulate Hardware Signal
+
+Use Postman / Python script
+
+Send fake ESP8266 JSON to /door-alert
+
+✔ Verify backend receives data and sends email.
+
+Step 9: Error Handling & Validation
+
+Handle missing data
+
+Prevent duplicate emails
+
+Add basic logging
+
+✔ Makes system stable.
+
+Phase 5: Final Preparation
+Step 10: Integration Ready State
+
+Keep API format fixed
+
+Share API details with hardware team
+
+No backend changes needed during integration
+
+Step 11: Documentation & Demo
+
+Prepare:
+
+Software flow diagram
+
+API explanation
+
+Email notification screenshots
+
+✔ Helps during evaluation.
+
+Final Software Flow (One Line)
+Signal Received → Validated → Processed → Email Sent
+
+What You Can Say in Viva
+
+“I developed the backend software that receives alert signals via HTTP and sends email notifications using Gmail SMTP. I tested the system by simulating hardware signals before actual integration.”
+
+If you want next:
+
+Turn this into report-ready content
+
+Create software flowchart
+
+Provide Flask starter code
+
+Give testing checklist
+
+Just tell what to do next ✔

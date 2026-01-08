@@ -1,0 +1,200 @@
+{
+  "info": {
+    "name": "Signal-Sender ESP8266 Testing",
+    "description": "Test collection for ESP8266 door alert signals and email automation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Register Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"your-email@gmail.com\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/api/email/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "email",
+            "register"
+          ]
+        },
+        "description": "Register the email address that will receive alerts"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Door Open Alert (Will send email)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"door_status\": \"open\",\n  \"alert\": true,\n  \"duration\": 5\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/door-alert",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "door-alert"
+          ]
+        },
+        "description": "Simulate ESP sending door OPEN alert signal - This will trigger email sending"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Door Closed (No alert)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"door_status\": \"closed\",\n  \"alert\": false,\n  \"duration\": 0\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/door-alert",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "door-alert"
+          ]
+        },
+        "description": "Normal door closed signal - No email will be sent"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Door Open 10 seconds Alert",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"door_status\": \"open\",\n  \"alert\": true,\n  \"duration\": 10\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/door-alert",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "door-alert"
+          ]
+        },
+        "description": "Door open for longer duration with alert - Will send email with duration info"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Door Open No Alert",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"door_status\": \"open\",\n  \"alert\": false,\n  \"duration\": 3\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/door-alert",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "door-alert"
+          ]
+        },
+        "description": "Door open but NOT flagged as alert - No email sent"
+      },
+      "response": []
+    },
+    {
+      "name": "6. Get All Logs",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/alerts/list",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "alerts",
+            "list"
+          ]
+        },
+        "description": "Retrieve all alert logs to see which emails were sent"
+      },
+      "response": []
+    },
+    {
+      "name": "7. Get Current Email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/api/email/current",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5000",
+          "path": [
+            "api",
+            "email",
+            "current"
+          ]
+        },
+        "description": "Check which email is currently registered"
+      },
+      "response": []
+    }
+  ]
+}

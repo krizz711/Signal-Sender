@@ -74,3 +74,4 @@ Test-NetConnection -ComputerName supabase.com -Port 443
 
 If this fails, you might have a network/firewall issue.
 
+

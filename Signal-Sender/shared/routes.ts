@@ -66,6 +66,25 @@ export const api = {
       },
     },
   },
+  device: {
+    getCommand: {
+      method: 'GET' as const,
+      // Device polling endpoint to fetch one-shot commands
+      path: '/api/device/:id/command',
+      responses: {
+        200: z.object({ action: z.string() }),
+      },
+    },
+    setCommand: {
+      method: 'POST' as const,
+      path: '/api/device/:id/command',
+      input: z.object({ action: z.enum(['buzz_on', 'buzz_off', 'none']) }),
+      responses: {
+        200: z.object({ success: z.boolean() }),
+        400: errorSchemas.validation,
+      },
+    },
+  },
 };
 
 // ============================================

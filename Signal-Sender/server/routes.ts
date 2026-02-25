@@ -2,6 +2,7 @@ import type { Express } from "express";
 import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
+import { setDeviceCommand, consumeDeviceCommand } from "./deviceCommands";
 import { z } from "zod";
 import { emailService } from "./email";
 import { insertRecipientSchema } from "@shared/schema";
@@ -107,6 +108,34 @@ export async function registerRoutes(
   
   // Hardware-friendly endpoint (no /api prefix if needed)
   app.post('/door-alert', handleAlert);
+
+  // Device polling: GET current one-shot command and consume it
+  app.get('/api/device/:id/command', (req, res) => {
+    try {
+      const id = req.params.id as string;
+      const cmd = consumeDeviceCommand(id);
+      res.status(200).json({ action: cmd.action });
+    } catch (err) {
+      console.error('Error fetching device command:', err);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
+
+  // Set device command (e.g., from UI/admin) - one-shot command
+  app.post('/api/device/:id/command', (req, res) => {
+    try {
+      const id = req.params.id as string;
+      const body = req.body as any;
+      if (!body || !['buzz_on', 'buzz_off', 'none'].includes(body.action)) {
+        return res.status(400).json({ message: 'Invalid action' });
+      }
+      setDeviceCommand(id, { action: body.action, createdAt: Date.now() });
+      res.status(200).json({ success: true });
+    } catch (err) {
+      console.error('Error setting device command:', err);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  });
 
   return httpServer;
 }
